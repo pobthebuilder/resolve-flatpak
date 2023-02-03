@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Name=Blackmagic RAW Speed Test
+Exec=/app/BlackmagicRAWSpeedTest/BlackmagicRAWSpeedTest
+Icon=/app/graphics/blackmagicraw-speedtest_256x256_apps.png
+Terminal=false
+StartupNotify=true
+Categories=AudioVideo
+

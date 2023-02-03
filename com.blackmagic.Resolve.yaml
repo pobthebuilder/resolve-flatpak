@@ -1,0 +1,126 @@
+app-id: com.blackmagic.Resolve
+runtime: org.freedesktop.Platform
+runtime-version: &runtime-version '22.08'
+sdk: org.freedesktop.Sdk
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=pulseaudio
+  - --socket=x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-cache
+  - --filesystem=xdg-data
+  - --filesystem=xdg-videos
+  - --filesystem=~/.local/share/DaVinciResolve
+#  - --env=BMD_RESOLVE_CONFIG_DIR=$XDG_CONFIG_HOME
+#  - --env=BMD_RESOLVE_LOGS_DIR=$XDG_DATA_HOME/logs
+
+command: /app/bin/resolve
+modules:
+  - shared-modules/glu/glu-9.json
+  - name: resolve
+    buildsystem: simple
+    build-commands:
+      - |
+        ./DaVinci_Resolve_18.1.2_Linux.run --appimage-extract 2>&1
+        find squashfs-root -exec chmod a+r {} \;
+        find squashfs-root -type d -exec chmod a+x {} \;
+
+        # Create directories
+        mkdir -p /app/easyDCP /app/scripts /app/.license /app/share /app/Fairlight /app/share/applications /app/share/icons/hicolor/128x128/apps /app/share/icons/hicolor/256x256/apps
+        chmod 755 /app/easyDCP /app/scripts /app/.license /app/share /app/Fairlight /app/share/applications /app/share/icons/hicolor/128x128/apps /app/share/icons/hicolor/256x256/apps
+
+        # Copy objects
+        cp -rp squashfs-root/bin /app/
+        cp -rp squashfs-root/Control /app/
+        cp -rp squashfs-root/Certificates /app/
+        cp -rp squashfs-root/DaVinci\ Control\ Panels\ Setup /app/
+        cp -rp squashfs-root/Developer /app/
+        cp -rp squashfs-root/docs /app/
+        cp -rp squashfs-root/Fairlight\ Studio\ Utility /app/
+        cp -rp squashfs-root/Fusion /app/
+        cp -rp squashfs-root/graphics /app/
+        cp -rp squashfs-root/libs /app/
+        cp -rp squashfs-root/LUT /app/
+        cp -rp squashfs-root/Onboarding /app/
+        cp -rp squashfs-root/plugins /app/
+        cp -rp squashfs-root/Technical\ Documentation /app/
+        cp -rp squashfs-root/UI_Resource /app/
+        cp -rp squashfs-root/scripts/script.checkfirmware /app/scripts/
+        cp -rp squashfs-root/scripts/script.getlogs.v4 /app/scripts/
+        cp -rp squashfs-root/scripts/script.start /app/scripts/
+        cp -rp squashfs-root/share/default-config.dat /app/share/
+        cp -rp squashfs-root/share/default_cm_config.bin /app/share/
+        cp -rp squashfs-root/share/log-conf.xml /app/share/
+        if [[ -e squashfs-root/share/remote-monitoring-log-conf.xml ]]; then
+            cp -rp squashfs-root/share/remote-monitoring-log-conf.xml /app/share/
+        fi
+
+        mkdir -p /app/var/BlackmagicDesign/DaVinci\ Resolve
+        chmod 755 /app/var/BlackmagicDesign/DaVinci\ Resolve
+
+        if [[ -e squashfs-root/BlackmagicRAWPlayer ]]; then
+            echo "Adding BlackmagicRAWPlayer"
+
+            cp -rp squashfs-root/BlackmagicRAWPlayer /app
+            cp com.blackmagic.Resolve.RAWPlayer.desktop /app/share/applications/com.blackmagic.Resolve.RAWPlayer.desktop
+            cp squashfs-root/graphics/blackmagicraw-player_256x256_apps.png /app/share/icons/hicolor/256x256/apps/com.blackmagic.Resolve.RAWPlayer.png
+        fi
+        if [[ -e squashfs-root/BlackmagicRAWSpeedTest ]]; then
+            echo "Adding BlackmagicRAWSpeedTest"
+
+            cp -rp squashfs-root/BlackmagicRAWSpeedTest /app
+            cp com.blackmagic.Resolve.RAWSpeedTest.desktop /app/share/applications/com.blackmagic.Resolve.RAWSpeedTest.desktop
+            cp squashfs-root/graphics/blackmagicraw-speedtest_256x256_apps.png /app/share/icons/hicolor/256x256/apps/com.blackmagic.Resolve.RAWSpeedTest.png
+        fi
+
+        # Create udev rules
+        #mkdir -p /app/lib/udev/rules.d
+        #chmod 755 /app/lib/udev/rules.d
+        #cat > /app/lib/udev/rules.d/75-davincipanel.rules <<EOF
+        #SUBSYSTEM=="usb", ATTRS{idVendor}=="1edb", MODE="0666"
+        #EOF
+        #cat > /app/lib/udev/rules.d/75-davincikb.rules <<EOF
+        #SUBSYSTEMS=="usb", ENV{.LOCAL_ifNum}="\$attr{bInterfaceNumber}"
+        # Editor Keyboard
+        #SUBSYSTEM=="hidraw", KERNEL=="hidraw*", ATTRS{idVendor}=="1edb", ATTRS{idProduct}=="da0b", ENV{.LOCAL_ifNum}=="04", MODE="0666"
+        # Speed Editor Keyboard
+        #SUBSYSTEM=="hidraw", KERNEL=="hidraw*", ATTRS{idVendor}=="1edb", ATTRS{idProduct}=="da0e", ENV{.LOCAL_ifNum}=="02", MODE="0666"
+        #EOF
+        #cat > /app/lib/udev/rules.d/75-sdx.rules <<EOF
+        #SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="096e", MODE="0666"
+        #EOF
+
+        cp -rp com.blackmagic.Resolve.desktop /app/share/applications/com.blackmagic.Resolve.desktop
+        cp -rp squashfs-root/graphics/DV_Resolve.png /app/share/icons/hicolor/128x128/apps/com.blackmagic.Resolve.png
+
+        # if [[ -e "/app/DaVinci Resolve Panels Setup/DaVinci Resolve Panels Setup" ]]; then
+        #     cp com.blackmagic.Resolve.PanelSetup.desktop /app/share/applications/com.blackmagic.Resolve.PanelSetup.desktop
+        #     cp -rp squashfs-root/graphics/DV_Panels.png /app/share/icons/hicolor/128x128/apps/com.blackmagic.Resolve.PanelSetup.png
+        # fi
+        if [[ -e "/app/DaVinci Control Panels Setup/DaVinci Control Panels Setup" ]]; then
+            cp com.blackmagic.Resolve.PanelSetup.desktop /app/share/applications/com.blackmagic.Resolve.PanelSetup.desktop
+            cp -rp squashfs-root/graphics/DV_Panels.png /app/share/icons/hicolor/128x128/apps/com.blackmagic.Resolve.PanelSetup.png
+        fi
+        if [[ -e "/app/bin/DaVinci Remote Monitoring" ]]; then
+            cp com.blackmagic.Resolve.RemoteMonitoring.desktop /app/share/applications/com.blackmagic.Resolve.RemoteMonitoring.desktop
+            cp -rp squashfs-root/graphics/Remote_Monitoring.png /app/share/icons/hicolor/128x128/apps/com.blackmagic.Resolve.RemoteMonitoring.png
+        fi
+    sources:
+      - type: file
+        path: com.blackmagic.Resolve.desktop
+      - type: file
+        path: com.blackmagic.Resolve.PanelSetup.desktop
+      - type: file
+        path: com.blackmagic.Resolve.RAWPlayer.desktop
+      - type: file
+        path: com.blackmagic.Resolve.RAWSpeedTest.desktop
+      - type: file
+        path: com.blackmagic.Resolve.RemoteMonitoring.desktop
+      - type: archive
+#        sha256: f6af12b67010d798e15fc38778a9c0067d7c27d396f44ab80fe75d1ffde72571
+#        path: DaVinci_Resolve_Studio_18.1.2_Linux.zip
+        sha256: c81475ec8e159a06b96f7790641bc690cd588594bf9184fc2fbdea8f4cf81799
+        path: DaVinci_Resolve_18.1.2_Linux.zip
