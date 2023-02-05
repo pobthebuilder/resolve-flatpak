@@ -2,9 +2,11 @@
 resolve-flatpak
 ===============
 
-This repo allows you to package DaVinci Resolve as a Flatpak for use on Flatpak
-based systems, especially e.g. Silverblue where there aren't easier installation
-options. It's still a work-in-progress.
+This repo allows you to package DaVinci Resolve as a Flatpak for use on Linux Flatpak
+based systems, especially e.g. Fedora Silverblue where there aren't easier installation
+options. 
+
+It's still a work-in-progress; but "works-for-me[tm]" right now.
 
 Usage
 -----
