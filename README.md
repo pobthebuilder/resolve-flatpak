@@ -1,4 +1,5 @@
 
+
 resolve-flatpak
 ===============
 
@@ -11,17 +12,58 @@ It's still a work-in-progress; but "works-for-me[tm]" right now.
 Usage
 -----
 
-1) git clone this repo
-2) Put your:
-DaVinci_Resolve_18.1.2_Linux.zip
-or:
-DaVinci_Resolve_Studio_18.1.2_Linux.zip
-in this directory.
+ 1. `git clone` this repo
+ 2. Edit the Flatpak manifest, `com.blackmagic.Resolve.yaml` to select the version:
+By default, com.blackmagic.Resolve.yaml is configured to package the latest version of Resolve Studio (18.1.4 at the time of writing).
 
-3) Uncomment the correct part of the com.blackmagic.Resolve.yaml for Free or Studio.
-4)
+To change from Studio to Free:
+
+#### Studio:
+
+```
+        _product="davinci-resolve-studio"
+```
+
+#### Free:
+
+```
+        _product="davinci-resolve"
+```
+#### Explicit Release:
+Alternatively, you can specify an explicit downloadId:
+
+Do this by overriding the _downloadid:
+```
+        # Uncomment this to hard code the download if you want a specific version
+        # _downloadid='44be7e694b4e440db5d2f70ad732d3b2'
+```
+See below for code to find explicit Download IDs.
+
+ 3. Build (& install) your package:
 ```
 flatpak-builder --user --install --force-clean build-dir com.blackmagic.Resolve.yaml
 ```
-5) Enjoy.
+ 4. Enjoy.
 
+## Finding explicit Download IDs
+#### Studio:
+
+```
+curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json |
+    jq -r '.downloads[]
+            | select(.urls["Linux"] != null)
+            | select(.urls["Linux"][0]["product"] == "davinci-resolve-studio")
+            | [.urls["Linux"][0].downloadTitle, .urls["Linux"][0].downloadId]
+            | @tsv'
+```
+
+#### Free:
+
+```
+curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json |
+    jq -r '.downloads[]
+            | select(.urls["Linux"] != null)
+            | select(.urls["Linux"][0]["product"] == "davinci-resolve")
+            | [.urls["Linux"][0].downloadTitle, .urls["Linux"][0].downloadId]
+            | @tsv'
+```

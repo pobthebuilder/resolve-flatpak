@@ -1,3 +1,23 @@
+####
+# Flatpak Configuration for building DaVinci Resolve
+#
+# By default, the script in here will download the latest version of DaVinci Resolve Studio.
+# You can download/install DaVinci Resolve, or DaVinci Resolve Studio.
+#
+# To change it, change the _product tag in the shell script below.
+#
+# You can also install a specific DaVinci type and version from a specific downloadId.
+# To do so, set the _downloadId variable in the shell script below.
+#
+# Use the following to get a full list of download IDs from Blackmagic:
+#curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json | jq -r '.downloads[] | select(.urls["Linux"] != null) | select(.urls["Linux"][0]["product"] == "davinci-resolve-studio") | [.urls["Linux"][0].downloadTitle, .urls["Linux"][0].downloadId] | @tsv'
+# or:
+#curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json | jq -r '.downloads[] | select(.urls["Linux"] != null) | select(.urls["Linux"][0]["product"] == "davinci-resolve") | [.urls["Linux"][0].downloadTitle, .urls["Linux"][0].downloadId] | @tsv'
+#DaVinci Resolve 18.1.4	6449dc76e0b845bcb7399964b00a3ec4
+#DaVinci Resolve 18.1.3	44be7e694b4e440db5d2f70ad732d3b2
+#DaVinci Resolve 18.1.2	4755b7bd2d924c0db1980824edb84a20
+#DaVinci Resolve 18.1.1	e09749f2de1d4c20a2b707c405d243fd
+####
 app-id: com.blackmagic.Resolve
 runtime: org.freedesktop.Platform
 runtime-version: &runtime-version '22.08'
@@ -22,9 +42,12 @@ modules:
   - shared-modules/glu/glu-9.json
   - name: resolve
     buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
     build-commands:
       - |
-        ./DaVinci_Resolve_18.1.2_Linux.run --appimage-extract 2>&1
+        ./DaVinci_Resolve_*_Linux.run --appimage-extract 2>&1
         find squashfs-root -exec chmod a+r {} \;
         find squashfs-root -type d -exec chmod a+x {} \;
 
@@ -42,7 +65,11 @@ modules:
         cp -rp squashfs-root/Fairlight\ Studio\ Utility /app/
         cp -rp squashfs-root/Fusion /app/
         cp -rp squashfs-root/graphics /app/
+
         cp -rp squashfs-root/libs /app/
+        # Can we use system Qt5? Not yet.
+        # rsync -avpr --exclude 'libQt5*' squashfs-root/libs /app/
+
         cp -rp squashfs-root/LUT /app/
         cp -rp squashfs-root/Onboarding /app/
         cp -rp squashfs-root/plugins /app/
@@ -119,8 +146,85 @@ modules:
         path: com.blackmagic.Resolve.RAWSpeedTest.desktop
       - type: file
         path: com.blackmagic.Resolve.RemoteMonitoring.desktop
-      - type: archive
-#        sha256: f6af12b67010d798e15fc38778a9c0067d7c27d396f44ab80fe75d1ffde72571
-#        path: DaVinci_Resolve_Studio_18.1.2_Linux.zip
-        sha256: c81475ec8e159a06b96f7790641bc690cd588594bf9184fc2fbdea8f4cf81799
-        path: DaVinci_Resolve_18.1.2_Linux.zip
+      - type: shell
+        commands:
+          - |
+            _product="davinci-resolve-studio"
+            # _product="davinci-resolve"
+
+            _useragent="User-Agent: Mozilla/5.0 (X11; Linux ${CARCH}) \
+                        AppleWebKit/537.36 (KHTML, like Gecko) \
+                        Chrome/77.0.3865.75 \
+                        Safari/537.36"
+
+
+            _useragent="$(printf '%s' "$_useragent" | sed 's/[[:space:]]\+/ /g')"
+            _referid='77ef91f67a9e411bbbe299e595b4cfcc'
+
+            # The following will find the latest version of Resolve/Resolve Studio.
+            _siteurl="https://www.blackmagicdesign.com/api/support/latest-version"
+            _reqjson="{ \
+                \"product\": \"davinci-resolve-studio\", \
+                \"platform\": \"linux\" \
+            }"
+            _reqjson="$(  printf '%s' "$_reqjson"   | sed 's/[[:space:]]\+/ /g')"
+            _downloadid="$(curl \
+                        -s \
+                        -H 'Host: www.blackmagicdesign.com' \
+                        -H 'Accept: application/json, text/plain, */*' \
+                        -H 'Origin: https://www.blackmagicdesign.com' \
+                        -H "$_useragent" \
+                        -H 'Content-Type: application/json;charset=UTF-8' \
+                        -H "Referer: https://www.blackmagicdesign.com/support/download/${_referid}/Linux" \
+                        -H 'Accept-Encoding: gzip, deflate, br' \
+                        -H 'Accept-Language: en-US,en;q=0.9' \
+                        -H 'Authority: www.blackmagicdesign.com' \
+                        -H 'Cookie: _ga=GA1.2.1849503966.1518103294; _gid=GA1.2.953840595.1518103294' \
+                        --data-ascii "$_reqjson" \
+                        --compressed \
+                        "$_siteurl" | jq -r '.["linux"]["downloadId"]')"
+
+            # Uncomment this to hard code the download if you want a specific version
+            # _downloadid='44be7e694b4e440db5d2f70ad732d3b2'
+
+            _reqjson="{ \
+                \"firstname\": \"Flatpak\", \
+                \"lastname\": \"Builder\", \
+                \"email\": \"someone@flathub.org\", \
+                \"phone\": \"202-555-0194\", \
+                \"country\": \"us\", \
+                \"state\": \"New York\", \
+                \"city\": \"FPK\", \
+                \"product\": \"DaVinci Resolve\" \
+            }"
+            _reqjson="$(  printf '%s' "$_reqjson"   | sed 's/[[:space:]]\+/ /g')"
+            _siteurl="https://www.blackmagicdesign.com/api/register/us/download/${_downloadid}"
+            _srcurl="$(curl \
+                        -s \
+                        -H 'Host: www.blackmagicdesign.com' \
+                        -H 'Accept: application/json, text/plain, */*' \
+                        -H 'Origin: https://www.blackmagicdesign.com' \
+                        -H "$_useragent" \
+                        -H 'Content-Type: application/json;charset=UTF-8' \
+                        -H "Referer: https://www.blackmagicdesign.com/support/download/${_referid}/Linux" \
+                        -H 'Accept-Encoding: gzip, deflate, br' \
+                        -H 'Accept-Language: en-US,en;q=0.9' \
+                        -H 'Authority: www.blackmagicdesign.com' \
+                        -H 'Cookie: _ga=GA1.2.1849503966.1518103294; _gid=GA1.2.953840595.1518103294' \
+                        --data-ascii "$_reqjson" \
+                        --compressed \
+                        "${_siteurl}")"
+
+            _fname="$(curl \
+                        --no-clobber \
+                        -gqb '' -C - --retry 3 --retry-delay 3 \
+                        -H 'Host: sw.blackmagicdesign.com' \
+                        -H 'Upgrade-Insecure-Requests: 1' \
+                        -H "${_useragent}" \
+                        -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' \
+                        -H 'Accept-Language: en-US,en;q=0.9' \
+                        -w '%{filename_effective}' \
+                        --compressed \
+                        -O \
+                        ${_srcurl})"
+            unzip -x "${_fname}"
