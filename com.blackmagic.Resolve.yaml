@@ -164,7 +164,7 @@ modules:
             # The following will find the latest version of Resolve/Resolve Studio.
             _siteurl="https://www.blackmagicdesign.com/api/support/latest-version"
             _reqjson="{ \
-                \"product\": \"davinci-resolve-studio\", \
+                \"product\": \"${_product}\", \
                 \"platform\": \"linux\" \
             }"
             _reqjson="$(  printf '%s' "$_reqjson"   | sed 's/[[:space:]]\+/ /g')"
