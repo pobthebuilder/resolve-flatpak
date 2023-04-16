@@ -2,7 +2,7 @@
 # Flatpak Configuration for building DaVinci Resolve
 #
 ####
-app-id: com.blackmagic.Resolve
+app-id: com.blackmagic.ResolveStudio
 runtime: org.freedesktop.Platform
 runtime-version: &runtime-version '22.08'
 sdk: org.freedesktop.Sdk
@@ -29,8 +29,8 @@ modules:
         - --share=network
     build-commands:
       - |
-        ./download_resolve.sh -p davinci-resolve
-        ./setup_resolve.sh
+        ./download_resolve.sh -p davinci-resolve-studio
+        ./setup_resolve.sh -s
         install -Dm755 resolve.sh /app/bin/resolve.sh
     sources:
       - type: file

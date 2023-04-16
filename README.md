@@ -12,40 +12,25 @@ It's still a work-in-progress; but "works-for-me[tm]" right now.
 Usage
 -----
 
- 1. `git clone` this repo
- 2. Edit the Flatpak manifest, `com.blackmagic.Resolve.yaml` to select the version:
+1. `git clone` this repo
 By default, com.blackmagic.Resolve.yaml is configured to package the latest version of Resolve Studio (18.1.4 at the time of writing).
 
-To change from Studio to Free:
+3. Build your package, and export to a distributable single file installer:
 
-#### Studio:
+#### Free
+```
+flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.Resolve.yaml
+flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve
+```
+#### Studio
+```
+flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.ResolveStudio.yaml
+flatpak build-bundle repo resolve.flatpak com.blackmagic.ResolveStudio
+```
 
-```
-        _product="davinci-resolve-studio"
-```
+3. Enjoy.
 
-#### Free:
-
-```
-        _product="davinci-resolve"
-```
-#### Explicit Release:
-Alternatively, you can specify an explicit downloadId:
-
-Do this by overriding the _downloadid:
-```
-        # Uncomment this to hard code the download if you want a specific version
-        # _downloadid='44be7e694b4e440db5d2f70ad732d3b2'
-```
-See below for code to find explicit Download IDs.
-
- 3. Build (& install) your package:
-```
-flatpak-builder --user --install --force-clean build-dir com.blackmagic.Resolve.yaml
-```
- 4. Enjoy.
-
-## Finding explicit Download IDs
+## Finding explicit Download IDs (for download_resolve.sh)
 #### Studio:
 
 ```
