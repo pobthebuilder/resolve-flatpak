@@ -1,5 +1,3 @@
-
-
 resolve-flatpak
 ===============
 
@@ -12,26 +10,38 @@ It's still a work-in-progress; but "works-for-me[tm]" right now.
 Usage
 -----
 
-1. `git clone` this repo
-By default, com.blackmagic.Resolve.yaml is configured to package the latest version of Resolve Studio (18.1.4 at the time of writing).
+## 1. Clone this repo
+```
+git clone git@github.com:pobthebuilder/resolve-flatpak.git
+git submodule init
+git submodule update
+```
 
-3. Build your package, and export to a distributable single file installer:
+## 2. Download, Build your package, and export to a distributable single file installer
+By default, com.blackmagic.Resolve.yaml is configured to package the latest version of Resolve (18.1.5b2 at the time of writing).
 
-#### Free
+### WIP: Free
 ```
 flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.Resolve.yaml
-flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve
+flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve # Taking 20 Minutes+ Aborting ...
+$ flatpak-builder --install --user --force-clean build-dir com.blackmagic.Resolve.yaml
+# black window ... force quit multiple times. Works. Secod Launch Successful
 ```
-#### Studio
+
+### Studio
 ```
 flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.ResolveStudio.yaml
 flatpak build-bundle repo resolve.flatpak com.blackmagic.ResolveStudio
 ```
 
-3. Enjoy.
+## 3. Enjoy.
 
-## Finding explicit Download IDs (for download_resolve.sh)
-#### Studio:
+
+
+# Finding explicit Download IDs
+To change to desired version by setting `DOWNLOADID=\'\'` in `download_resolve.sh`.
+
+### Studio:
 
 ```
 curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json |
