@@ -94,7 +94,7 @@ curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json |
 		.downloads[] | 
 		select(.urls["Linux"] != null) | 
 		select(.urls["Linux"][0]["product"] == $APP_TAG) | 
-		"    <release version=\"" + (.urls["Linux"][0].major|tostring) + "." + (.urls["Linux"][0].minor|tostring) + "." + (.urls["Linux"][0].releaseNum|tostring) + "\" date=\"" + (.numericDate / 1000|strftime("%Y-%m-%d")) + "\">",
+    "    <release version=\"" + (.urls["Linux"][0].major|tostring) + "." + (.urls["Linux"][0].minor|tostring) + "." + (.urls["Linux"][0].releaseNum|tostring) + "~" + (.numericDate|tostring) + "\" date=\"" + (.numericDate / 1000|strftime("%Y-%m-%d")) + "\">",
 		"      <description>",
 		.desc, 
 		"      </description>", 
