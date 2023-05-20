@@ -23,9 +23,8 @@ By default, com.blackmagic.Resolve.yaml is configured to package the latest vers
 ### WIP: Free
 ```
 flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.Resolve.yaml
-flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve # Taking 20 Minutes+ Aborting ...
-$ flatpak-builder --install --user --force-clean build-dir com.blackmagic.Resolve.yaml
-# black window ... force quit multiple times. Works. Secod Launch Successful
+flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve # This takes >32 minutes utilizing a single core w/out any vebose output.
+$ flatpak install --user resolve.flatpak
 ```
 
 ### Studio
