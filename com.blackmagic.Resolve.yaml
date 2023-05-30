@@ -29,16 +29,23 @@ modules:
         - --share=network
     build-commands:
       - |
-        ./download_resolve.sh -p davinci-resolve
-        ./setup_resolve.sh
-        ./appdata.sh
-        install -Dm755 resolve.sh /app/bin/resolve.sh
+        ./run_complete_installation.sh
     sources:
       - type: file
-        path: download_resolve.sh
+        path: python/build_metainfo.py
       - type: file
-        path: setup_resolve.sh
+        path: python/main.py
       - type: file
-        path: appdata.sh
+        path: python/resolve_download.py
       - type: file
-        path: resolve.sh
+        path: python/version.py
+      - type: file
+        path: shell/setup_resolve.sh
+      - type: file
+        path: shell/setup_directories.sh
+      - type: file
+        path: shell/resolve.sh
+      - type: file
+        path: run_complete_installation.sh
+      - type: file
+        path: requirements.txt
