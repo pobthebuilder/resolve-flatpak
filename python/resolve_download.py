@@ -26,20 +26,16 @@ headers = {
 }
 
 
-def get_latest_version_information(app_tag: str, refer_id: str = '77ef91f67a9e411bbbe299e595b4cfcc'):
-    data = {
-        "product": app_tag,
-        "platform": "linux"
-    }
-
-    response: requests.Response = requests.post(
-        "https://www.blackmagicdesign.com/api/support/latest-version",
+def get_latest_version_information(app_tag: str, refer_id: str = '77ef91f67a9e411bbbe299e595b4cfcc', stable=True):
+    response: requests.Response = requests.get(
+        f"https://www.blackmagicdesign.com/api/support/latest-stable-version/{app_tag}/linux"
+        if stable else
+        f"https://www.blackmagicdesign.com/api/support/latest-version/{app_tag}/linux",
         cookies=cookies,
         headers={
             **headers,
             'Referer': 'https://www.blackmagicdesign.com/support/download/' + refer_id + '/Linux',
         },
-        data=json.dumps(data),
     )
 
     parsed_response = json.loads(response.content.decode('utf-8'))
@@ -49,7 +45,7 @@ def get_latest_version_information(app_tag: str, refer_id: str = '77ef91f67a9e41
         minor=parsed_response["linux"]["minor"],
         patch=parsed_response["linux"]["releaseNum"],
         build=parsed_response["linux"]["build"],
-        beta=-1 if parsed_response["linux"]["beta"] is None else parsed_response["linux"]["beta"]
+        beta=parsed_response["linux"]["beta"] if "beta" in parsed_response["linux"] else -1
     ), parsed_response["linux"]["releaseId"], parsed_response["linux"]["downloadId"])
 
 
