@@ -7,6 +7,8 @@ if __name__ == "__main__":
     is_studio = '--studio' in sys.argv
     app_tag = "davinci-resolve-studio" if is_studio else "davinci-resolve"
 
+    print("Building for tag " + app_tag)
+
     print("Requesting version information...")
     (version, release_id, download_id) = get_latest_version_information(
         refer_id='77ef91f67a9e411bbbe299e595b4cfcc',
