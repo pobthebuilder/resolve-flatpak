@@ -18,12 +18,12 @@ git submodule update
 ```
 
 ## 2. Download, Build your package, and export to a distributable single file installer
-By default, `download_resolve.sh` is hardoced to package the latest stable version of Resolve (18.1.4 as of time of writing).
+By default, `download_resolve.sh` is hardoced to package the latest stable version of Resolve (18.1.4 as of time of writing). 'build-bundle' takes >32 minutes utilizing a single core w/out any vebose output.
 
-### WIP: Free
+### Free
 ```
 flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.Resolve.yaml
-flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve # This takes >32 minutes utilizing a single core w/out any vebose output.
+flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve
 ```
 
 ### Studio
