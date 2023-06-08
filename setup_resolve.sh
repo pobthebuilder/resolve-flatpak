@@ -77,11 +77,18 @@ if [[ -e squashfs-root/share/remote-monitoring-log-conf.xml ]]; then
     cp -rp squashfs-root/share/remote-monitoring-log-conf.xml ${PREFIX}/share/
 fi
 
+tar -xzvf squashfs-root/share/panels/dvpanel-framework-linux-x86_64.tgz -C ${PREFIX}/libs libDaVinciPanelAPI.so libFairlightPanelAPI.so
+
+# Quiet some errors
+mkdir -p ${PREFIX}/bin/BlackmagicRawAPI/
+ln -s ../libs/libBlackmagicRawAPI.so ${PREFIX}/bin/libBlackmagicRawAPI.so
+ln -s ../../libs/libBlackmagicRawAPI.so ${PREFIX}/bin/BlackmagicRawAPI/libBlackmagicRawAPI.so
+
 if [[ -e squashfs-root/BlackmagicRAWPlayer ]]; then
     echo "Adding BlackmagicRAWPlayer"
 
     cp -rp squashfs-root/BlackmagicRAWPlayer ${PREFIX}
-    cat | sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RAWPlayer.desktop <<'    EOF'
+    cat <<'    EOF'| sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RAWPlayer.desktop
     [Desktop Entry]
     Version=1.0
     Encoding=UTF-8
@@ -100,7 +107,7 @@ if [[ -e squashfs-root/BlackmagicRAWSpeedTest ]]; then
     echo "Adding BlackmagicRAWSpeedTest"
 
     cp -rp squashfs-root/BlackmagicRAWSpeedTest ${PREFIX}
-    cat | sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RAWSpeedTest.desktop <<'    EOF'
+    cat <<'    EOF'| sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RAWSpeedTest.desktop
     [Desktop Entry]
     Version=1.0
     Encoding=UTF-8
@@ -138,7 +145,7 @@ fi
 #EOF
 
 
-cat > ${PREFIX}/share/applications/${APP_ID}.desktop <<EOF
+cat <<EOF > ${PREFIX}/share/applications/${APP_ID}.desktop
 [Desktop Entry]
 Version=1.0
 Type=Application
@@ -171,7 +178,7 @@ cp -rp squashfs-root/graphics/DV_Resolve.png ${PREFIX}/share/icons/hicolor/128x1
 #     cp -rp squashfs-root/graphics/DV_Panels.png ${PREFIX}/share/icons/hicolor/128x128/apps/${APP_ID}.PanelSetup.png
 # fi
 if [[ -e "${PREFIX}/DaVinci Control Panels Setup/DaVinci Control Panels Setup" ]]; then
-    cat | sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.PanelSetup.desktop <<'    EOF'
+    cat <<'    EOF'| sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.PanelSetup.desktop
     [Desktop Entry]
     Version=1.0
     Encoding=UTF-8
@@ -186,7 +193,7 @@ if [[ -e "${PREFIX}/DaVinci Control Panels Setup/DaVinci Control Panels Setup" ]
     cp -rp squashfs-root/graphics/DV_Panels.png ${PREFIX}/share/icons/hicolor/128x128/apps/${APP_ID}.PanelSetup.png
 fi
 if [[ -e "${PREFIX}/bin/DaVinci Remote Monitoring" ]]; then
-    cat | sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RemoteMonitoring.desktop <<'    EOF'
+    cat <<'    EOF'| sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RemoteMonitoring.desktop
     [Desktop Entry]
     Version=1.0
     Encoding=UTF-8
