@@ -1,6 +1,6 @@
 .flatpak-builder/
-.pdf
-.run
-.zip
+*.pdf
+*.run
+*.zip
 repo/
 resolve.flatpak
