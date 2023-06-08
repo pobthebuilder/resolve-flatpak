@@ -12,8 +12,10 @@ It's still a work-in-progress; but "works-for-me[tm]" right now.
 Usage
 -----
 
-1. `git clone` this repo
-By default, com.blackmagic.Resolve.yaml is configured to package the latest version of Resolve Studio (18.1.4 at the time of writing).
+1. If you have appimagelauncherd (the AppImage Launcher daemon) installed and enabled, you NEED to temporarely disable it (either through systemctl or through the AppImage Launcher GUI) as it conflicts with flatpak-builder during the .run file repackaging process.
+
+2. `git clone https://github.com/pobthebuilder/resolve-flatpak.git --recursive`
+By default, com.blackmagic.Resolve.yaml is configured to package the latest version of Resolve (18.5 Beta 3 at the time of writing).
 
 3. Build your package, and export to a distributable single file installer:
 
@@ -28,7 +30,7 @@ flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.ResolveStudio
 flatpak build-bundle repo resolve.flatpak com.blackmagic.ResolveStudio
 ```
 
-3. Enjoy.
+4. Enjoy.
 
 ## Finding explicit Download IDs (for download_resolve.sh)
 #### Studio:
