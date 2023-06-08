@@ -10,11 +10,13 @@ It's still a work-in-progress; but "works-for-me[tm]" right now.
 Usage
 -----
 
-## 1. Clone this repo
+## 1. Clone this repo and install requirements
 ```
 git clone git@github.com:pobthebuilder/resolve-flatpak.git
 git submodule init
 git submodule update
+# Fedora Silverblue Dependencies (Untested)
+rpm-ostree install flatpak-builder lzip --apply-live
 ```
 
 ## 2. Download, Build your package, and export to a distributable single file installer
