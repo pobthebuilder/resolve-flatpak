@@ -17,11 +17,11 @@ USERAGENT="User-Agent: Mozilla/5.0 (X11; Linux ${CARCH}) \
             Safari/537.36"
 
 # Select the desired version here
-# DOWNLOADID='e09749f2de1d4c20a2b707c405d243fd' #DaVinci Resolve 18.1.1 
-# DOWNLOADID='4755b7bd2d924c0db1980824edb84a20' #DaVinci Resolve 18.1.2 
-# DOWNLOADID='44be7e694b4e440db5d2f70ad732d3b2' #DaVinci Resolve 18.1.3 
-DOWNLOADID='6449dc76e0b845bcb7399964b00a3ec4' #DaVinci Resolve 18.1.4 
-# DOWNLOADID='' # Use Latest i.e. 18.1.5b2 
+# DOWNLOADID='e09749f2de1d4c20a2b707c405d243fd' #DaVinci Resolve 18.1.1
+# DOWNLOADID='4755b7bd2d924c0db1980824edb84a20' #DaVinci Resolve 18.1.2
+# DOWNLOADID='44be7e694b4e440db5d2f70ad732d3b2' #DaVinci Resolve 18.1.3
+DOWNLOADID='6449dc76e0b845bcb7399964b00a3ec4' #DaVinci Resolve 18.1.4
+# DOWNLOADID='' # Use Latest i.e. 18.1.5b2
 
 ####
 #
