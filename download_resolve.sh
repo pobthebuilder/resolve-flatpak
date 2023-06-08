@@ -1,15 +1,12 @@
 #!/bin/sh
 #
-# By default, the script in here will download the latest version of DaVinci Resolve.
+# By default, the script in here will download the hardcoded latest stable version of DaVinci Resolve.
 #
 # Use the following to get a full list of download IDs from Blackmagic:
 #curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json | jq -r '.downloads[] | select(.urls["Linux"] != null) | select(.urls["Linux"][0]["product"] == "davinci-resolve-studio") | [.urls["Linux"][0].downloadTitle, .urls["Linux"][0].downloadId] | @tsv'
 # or:
 #curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json | jq -r '.downloads[] | select(.urls["Linux"] != null) | select(.urls["Linux"][0]["product"] == "davinci-resolve") | [.urls["Linux"][0].downloadTitle, .urls["Linux"][0].downloadId] | @tsv'
-#DaVinci Resolve 18.1.4 6449dc76e0b845bcb7399964b00a3ec4
-#DaVinci Resolve 18.1.3 44be7e694b4e440db5d2f70ad732d3b2
-#DaVinci Resolve 18.1.2 4755b7bd2d924c0db1980824edb84a20
-#DaVinci Resolve 18.1.1 e09749f2de1d4c20a2b707c405d243fd
+
 ####
 PRODUCT='davinci-resolve'
 SITEURL='https://www.blackmagicdesign.com/api/support/latest-version'
@@ -18,8 +15,13 @@ USERAGENT="User-Agent: Mozilla/5.0 (X11; Linux ${CARCH}) \
             AppleWebKit/537.36 (KHTML, like Gecko) \
             Chrome/77.0.3865.75 \
             Safari/537.36"
-# e.g. DOWNLOADID='44be7e694b4e440db5d2f70ad732d3b2'
-DOWNLOADID='6449dc76e0b845bcb7399964b00a3ec4'
+
+# Select the desired version here
+# DOWNLOADID='e09749f2de1d4c20a2b707c405d243fd' #DaVinci Resolve 18.1.1 
+# DOWNLOADID='4755b7bd2d924c0db1980824edb84a20' #DaVinci Resolve 18.1.2 
+# DOWNLOADID='44be7e694b4e440db5d2f70ad732d3b2' #DaVinci Resolve 18.1.3 
+DOWNLOADID='6449dc76e0b845bcb7399964b00a3ec4' #DaVinci Resolve 18.1.4 
+# DOWNLOADID='' # Use Latest i.e. 18.1.5b2 
 
 ####
 #
