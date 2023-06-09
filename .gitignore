@@ -1,7 +1,5 @@
-.flatpak-builder/
-*.pdf
-*.run
-*.zip
-repo/
-resolve.flatpak
-squashfs-root/
+.flatpak-builder
+.idea
+build-dir
+repo
+venv
