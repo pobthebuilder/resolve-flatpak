@@ -4,3 +4,4 @@
 *.zip
 repo/
 resolve.flatpak
+squashfs-root/
