@@ -20,7 +20,7 @@ rpm-ostree install flatpak-builder lzip --apply-live
 ```
 
 ## 2. Download, Build your package, and export to a distributable single file installer
-By default, `download_resolve.sh` is hardoced to package the latest stable version of Resolve (18.1.4 as of time of writing). 'build-bundle' takes >32 minutes utilizing a single core w/out any vebose output.
+By default, `download_resolve.sh` is hardoced to package the latest stable version of Resolve (18.1.4 as of time of writing). 'build-bundle' may take >32 minutes utilizing a single core w/out any vebose output.
 
 ### Free
 ```
