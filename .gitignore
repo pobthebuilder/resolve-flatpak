@@ -1,0 +1,5 @@
+build-dir
+.idea
+venv
+repo
+.flatpak-builder
