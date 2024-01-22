@@ -4,7 +4,7 @@
 ####
 app-id: com.blackmagic.Resolve
 runtime: org.freedesktop.Platform
-runtime-version: &runtime-version '22.08'
+runtime-version: &runtime-version '23.08'
 sdk: org.freedesktop.Sdk
 finish-args:
   - --share=ipc
