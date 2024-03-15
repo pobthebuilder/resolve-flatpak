@@ -18,10 +18,18 @@ finish-args:
   - --filesystem=xdg-data
   - --filesystem=xdg-videos
   - --filesystem=~/.local/share/DaVinciResolve
+  - --env=LD_PRELOAD=/lib/x86_64-linux-gnu/libglib-2.0.so.0 /lib/x86_64-linux-gnu/libgio-2.0.so.0 /lib/x86_64-linux-gnu/libgmodule-2.0.so.0 /lib/x86_64-linux-gnu/libgobject-2.0.so.0
 
 command: /app/bin/resolve.sh
 modules:
   - shared-modules/glu/glu-9.json
+  - name: libxcrypt
+    buildsystem: autotools
+    config-opts: ["--enable-obsolete-api=glibc"]
+    sources:
+      - type: git
+        url: https://github.com/besser82/libxcrypt.git
+        tag: v4.4.36
   - name: resolve
     buildsystem: simple
     build-options:
