@@ -12,7 +12,7 @@ finish-args:
   - --socket=pulseaudio
   - --socket=x11
   - --socket=wayland
-  - --device=dri
+  - --device=all
   - --filesystem=xdg-documents
   - --filesystem=xdg-cache
   - --filesystem=xdg-data
