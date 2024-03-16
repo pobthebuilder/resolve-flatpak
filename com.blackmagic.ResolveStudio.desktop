@@ -3,3 +3,8 @@ Type=Application
 Name=Davinci Resolve Studio
 Icon=com.blackmagic.ResolveStudio
 Exec=/app/bin/resolve.sh
+Actions=GetLogs;
+
+[Desktop Action GetLogs]
+Exec=/app/scripts/script.getlogs.v4
+Name=Collect logs
