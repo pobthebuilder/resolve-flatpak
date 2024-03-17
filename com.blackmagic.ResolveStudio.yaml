@@ -18,6 +18,8 @@ finish-args:
   - --filesystem=xdg-data
   - --filesystem=xdg-videos
   - --filesystem=~/.local/share/DaVinciResolve
+  - --env=RUSTICL_ENABLE=radeonsi,iris,nouveau
+  - --env=OCL_ICD_VENDORS=/usr/lib/x86_64-linux-gnu/GL/default/OpenCL/vendors/rusticl.icd
 
 command: /app/bin/resolve.sh
 modules:
