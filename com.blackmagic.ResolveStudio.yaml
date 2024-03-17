@@ -23,6 +23,8 @@ finish-args:
   - --filesystem=~/Desktop
   # https://www.reddit.com/r/Fedora/comments/12z32r1/davinci_resolve_libpango_undefined_symbol_g/
   # - --env=LD_PRELOAD=/lib/x86_64-linux-gnu/libglib-2.0.so.0 /lib/x86_64-linux-gnu/libgio-2.0.so.0 /lib/x86_64-linux-gnu/libgmodule-2.0.so.0 /lib/x86_64-linux-gnu/libgobject-2.0.so.0
+  - --env=RUSTICL_ENABLE=radeonsi,iris,nouveau
+  - --env=OCL_ICD_VENDORS=rusticl.icd
 
 command: /app/bin/resolve.sh
 modules:
