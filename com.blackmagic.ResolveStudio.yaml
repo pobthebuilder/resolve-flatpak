@@ -18,6 +18,7 @@ finish-args:
   - --filesystem=xdg-data
   - --filesystem=xdg-videos
   - --filesystem=~/.local/share/DaVinciResolve
+  - --filesystem=~/Desktop
   - --env=LD_PRELOAD=/lib/x86_64-linux-gnu/libglib-2.0.so.0 /lib/x86_64-linux-gnu/libgio-2.0.so.0 /lib/x86_64-linux-gnu/libgmodule-2.0.so.0 /lib/x86_64-linux-gnu/libgobject-2.0.so.0
 
 command: /app/bin/resolve.sh
