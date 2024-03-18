@@ -24,6 +24,7 @@ finish-args:
 command: /app/bin/resolve.sh
 modules:
   - shared-modules/glu/glu-9.json
+  #Ship libcrypt.so.1 with flatpak as not provided by runtime or by Blackmagic. See https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/issues/1708
   - name: libxcrypt
     buildsystem: autotools
     config-opts: ["--enable-obsolete-api=glibc"]
@@ -31,6 +32,31 @@ modules:
       - type: git
         url: https://github.com/besser82/libxcrypt.git
         tag: v4.4.36
+  - name: onetbb
+    disabled: true
+    buildsystem: cmake-ninja
+    config-opts:
+      - -Wno-dev
+      - -DTBB_TEST=OFF
+    sources:
+      - type: git
+        url: https://github.com/oneapi-src/oneTBB
+        tag: v2021.11.0
+  #Build libcxx and ship as a library with Resolve as BM is outdated and segfaults on some setups. Disabled by default.
+  - name: libcxx
+    disabled: true
+    buildsystem: cmake-ninja
+    builddir: true
+    subdir: runtimes
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DLLVM_ENABLE_RUNTIMES=libcxx;libcxxabi
+      - -DLLVM_TARGETS_TO_BUILD=X86
+      - -Wno-dev
+    sources:
+      - type: git
+        url: https://github.com/llvm/llvm-project.git
+        tag: llvmorg-17.0.6
   - name: resolve
     buildsystem: simple
     build-options:
