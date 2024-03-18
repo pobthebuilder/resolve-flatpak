@@ -28,7 +28,7 @@ modules:
       build-args:
         - --share=network
     build-commands:
-      - install -Dm644 logo.png /app/share/icons/hicolor/scalable/apps/com.blackmagic.ResolveStudio.png
+      - install -Dm644 logo.png /app/share/icons/hicolor/scalable/apps/com.blackmagic.Resolve.png
       - install -Dm644 com.blackmagic.Resolve.Studio.desktop /app/share/applications/com.blackmagic.Resolve.Studio.desktop
       - |
         ./run_complete_installation.sh --studio
