@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Davinci Resolve Studio
-Icon=com.blackmagic.ResolveStudio
-Exec=/app/bin/resolve.sh
