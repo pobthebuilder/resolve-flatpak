@@ -2,7 +2,7 @@
 # Flatpak Configuration for building DaVinci Resolve
 #
 ####
-app-id: com.blackmagic.ResolveStudio
+app-id: com.blackmagic.Resolve.Studio
 runtime: org.freedesktop.Platform
 runtime-version: &runtime-version '23.08'
 sdk: org.freedesktop.Sdk
@@ -29,7 +29,7 @@ modules:
         - --share=network
     build-commands:
       - install -Dm644 logo.png /app/share/icons/hicolor/scalable/apps/com.blackmagic.ResolveStudio.png
-      - install -Dm644 com.blackmagic.ResolveStudio.desktop /app/share/applications/com.blackmagic.ResolveStudio.desktop
+      - install -Dm644 com.blackmagic.Resolve.Studio.desktop /app/share/applications/com.blackmagic.Resolve.Studio.desktop
       - |
         ./run_complete_installation.sh --studio
     sources:
@@ -54,4 +54,4 @@ modules:
       - type: file
         path: logo.png
       - type: file
-        path: com.blackmagic.ResolveStudio.desktop
+        path: com.blackmagic.Resolve.Studio.desktop
