@@ -3,3 +3,4 @@ Type=Application
 Name=Davinci Resolve
 Icon=com.blackmagic.Resolve
 Exec=/app/bin/resolve.sh
+PrefersNonDefaultGPU=true
