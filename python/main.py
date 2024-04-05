@@ -15,11 +15,11 @@ if __name__ == "__main__":
         app_tag=app_tag,
         stable=is_beta is False,
     )
-    print(f"Download latest version of Davinchi Resolve{' Studio' if is_studio else ''}...")
+    print(f"Download latest version of Davinci Resolve{' Studio' if is_studio else ''}...")
     download_using_id(download_id)
     print(f"Building meta info...")
     # build_metainfo(
     #     app_id='com.blackmagic.ResolveStudio' if is_studio else 'com.blackmagic.Resolve',
-    #     app_description="DaVinci Resolve Studio" if is_studio else 'DaVinchi Resolve',
+    #     app_description="DaVinci Resolve Studio" if is_studio else 'DaVinci Resolve',
     #     app_tag=app_tag,
     # )
