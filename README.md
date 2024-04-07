@@ -21,7 +21,7 @@ By default, com.blackmagic.Resolve.yaml is configured to package the latest vers
 
 #### Free
 ```
-flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.Resolve.yaml
+flatpak-builder --install-deps-from=flathub --force-clean --repo=repo build-dir com.blackmagic.Resolve.yaml
 flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve
 ```
 #### Studio
