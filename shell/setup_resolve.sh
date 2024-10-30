@@ -58,7 +58,13 @@ cp -rp squashfs-root/Fairlight\ Studio\ Utility ${PREFIX}/
 cp -rp squashfs-root/Fusion ${PREFIX}/
 cp -rp squashfs-root/graphics ${PREFIX}/
 
-cp -rp squashfs-root/libs ${PREFIX}/
+# https://www.reddit.com/r/Fedora/comments/12z32r1/davinci_resolve_libpango_undefined_symbol_g/
+rsync -avpr \
+	--exclude 'libglib*' \
+	--exclude 'libgio*' \
+	--exclude 'libgmodule*' \
+	--exclude 'libgobject*' 
+	squashfs-root/libs ${PREFIX}/
 # Can we use system Qt5? Not yet.
 # rsync -avpr --exclude 'libQt5*' squashfs-root/libs ${PREFIX}/
 
