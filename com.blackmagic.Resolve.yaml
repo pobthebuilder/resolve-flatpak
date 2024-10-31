@@ -64,7 +64,6 @@ modules:
         - --share=network
     build-commands:
       - install -Dm644 logo.png /app/share/icons/hicolor/scalable/apps/com.blackmagic.Resolve.png
-      - install -Dm644 com.blackmagic.Resolve.desktop /app/share/applications/com.blackmagic.Resolve.desktop
       - |
         ./run_complete_installation.sh
     sources:
@@ -88,5 +87,3 @@ modules:
         path: requirements.txt
       - type: file
         path: logo.png
-      - type: file
-        path: com.blackmagic.Resolve.desktop

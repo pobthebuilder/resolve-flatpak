@@ -29,7 +29,7 @@ def build_metainfo(app_id: str, app_description: str, app_tag: str):
             build=linux["releaseId"],
             beta=-1 if beta is None or beta.group(1) == "" else beta.group(1)
         )
-        date = datetime.datetime.strptime(download["date"], '%d %b %Y').strftime("%Y-%m%d")
+        date = datetime.datetime.strptime(download["date"], '%d %b %Y').strftime("%Y-%m-%d")
 
         if idx == 0 or latest_description == "":
             latest_description = description
@@ -42,9 +42,7 @@ def build_metainfo(app_id: str, app_description: str, app_tag: str):
 
         releases += release
 
-    template = """
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2013 First Lastname <your@email.com> -->
+    template = """<?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>""" + app_id + """</id>
   <metadata_license>FSFAP</metadata_license>

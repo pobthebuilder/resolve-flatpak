@@ -21,13 +21,34 @@ By default, com.blackmagic.Resolve.yaml is configured to package the latest vers
 
 #### Free
 ```
-flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.Resolve.yaml
-flatpak build-bundle repo resolve.flatpak com.blackmagic.Resolve
+flatpak-builder --force-clean --repo=.repo .build-dir com.blackmagic.Resolve.yaml
 ```
+
+To simply install the built version:
+```
+flatpak --user remote-add --no-gpg-verify resolve-repo .repo
+flatpak --user install resolve-repo com.blackmagic.ResolveStudio
+```
+
+To build a redistruble single file package:
+```
+flatpak build-bundle .repo resolve.flatpak com.blackmagic.Resolve --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
+```
+
 #### Studio
 ```
-flatpak-builder --force-clean --repo=repo build-dir com.blackmagic.ResolveStudio.yaml
-flatpak build-bundle repo resolve.flatpak com.blackmagic.ResolveStudio
+flatpak-builder --force-clean --repo=.repo .build-dir com.blackmagic.ResolveStudio.yaml
+```
+
+To simply install the built version:
+```
+flatpak --user remote-add --no-gpg-verify resolve-repo .repo
+flatpak --user install resolve-repo com.blackmagic.ResolveStudio
+```
+
+To build a redistruble single file package:
+```
+flatpak build-bundle .repo resolve.flatpak com.blackmagic.ResolveStudio --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 ```
 
 4. Enjoy.

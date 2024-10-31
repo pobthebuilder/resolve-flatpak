@@ -1,5 +1,4 @@
 import json
-import zipfile
 
 import requests
 
@@ -78,11 +77,7 @@ def download_using_id(download_id: str, refer_id: str = "77ef91f67a9e411bbbe299e
     total_size_in_bytes = int(download_response.headers.get('Content-Length', 0))
     progress = 0
     with open("./resolve.zip", "wb") as f:
-        for chunk in download_response.iter_content(chunk_size=32 * 1024):
+        for chunk in download_response.iter_content(chunk_size=10242 * 1024):
             f.write(chunk)
             progress += len(chunk)
             print(" " + str(round(progress / total_size_in_bytes * 100, 4)) + "%", end='\r', flush=True)
-
-    print("Extracting resolve installation...")
-    with zipfile.ZipFile("./resolve.zip", 'r') as zip_file:
-        zip_file.extractall('.')
