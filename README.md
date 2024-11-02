@@ -21,7 +21,7 @@ By default, com.blackmagic.Resolve.yaml is configured to package the latest vers
 
 #### Free
 ```
-flatpak-builder --force-clean --repo=.repo .build-dir com.blackmagic.Resolve.yaml
+flatpak-builder --install-deps-from=flathub --force-clean --repo=.repo .build-dir com.blackmagic.Resolve.yaml
 ```
 
 To simply install the built version:
@@ -37,7 +37,7 @@ flatpak build-bundle .repo resolve.flatpak com.blackmagic.Resolve --runtime-repo
 
 #### Studio
 ```
-flatpak-builder --force-clean --repo=.repo .build-dir com.blackmagic.ResolveStudio.yaml
+flatpak-builder --install-deps-from=flathub --force-clean --repo=.repo .build-dir com.blackmagic.ResolveStudio.yaml
 ```
 
 To simply install the built version:
