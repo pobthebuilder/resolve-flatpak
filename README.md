@@ -27,7 +27,7 @@ flatpak-builder --install-deps-from=flathub --force-clean --repo=.repo .build-di
 To simply install the built version:
 ```
 flatpak --user remote-add --no-gpg-verify resolve-repo .repo
-flatpak --user install resolve-repo com.blackmagic.ResolveStudio
+flatpak --user install resolve-repo com.blackmagic.Resolve
 ```
 
 To build a redistruble single file package:
