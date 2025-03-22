@@ -11,14 +11,20 @@ finish-args:
   - --share=network
   - --socket=pulseaudio
   - --socket=x11
-  - --socket=wayland
   - --device=dri
+  - --filesystem=xdg-desktop
   - --filesystem=xdg-documents
-  - --filesystem=xdg-cache
-  - --filesystem=xdg-data
+  - --filesystem=xdg-download
+  - --filesystem=xdg-music
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-public-share
   - --filesystem=xdg-videos
-  - --filesystem=~/.local/share/DaVinciResolve
-  - --filesystem=~/Desktop
+  - --filesystem=/media
+  - --filesystem=/run/media
+  - --filesystem=/mnt
+  - --persist=.local/share/DaVinciResolve
+  - --persist=Videos/CacheClip
+  - --persist=Documents/BlackmagicDesign
   # https://www.reddit.com/r/Fedora/comments/12z32r1/davinci_resolve_libpango_undefined_symbol_g/
   # - --env=LD_PRELOAD=/lib/x86_64-linux-gnu/libglib-2.0.so.0 /lib/x86_64-linux-gnu/libgio-2.0.so.0 /lib/x86_64-linux-gnu/libgmodule-2.0.so.0 /lib/x86_64-linux-gnu/libgobject-2.0.so.0
 
