@@ -24,6 +24,7 @@ finish-args:
   - --filesystem=/mnt
   - --persist=.local/share/DaVinciResolve
   - --persist=Videos/CacheClip
+  - --persist=Videos/.gallery
   - --persist=Documents/BlackmagicDesign
   - --env=LD_PRELOAD=/lib/x86_64-linux-gnu/libglib-2.0.so.0 /lib/x86_64-linux-gnu/libgio-2.0.so.0 /lib/x86_64-linux-gnu/libgmodule-2.0.so.0 /lib/x86_64-linux-gnu/libgobject-2.0.so.0
 
