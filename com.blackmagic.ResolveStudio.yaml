@@ -4,7 +4,7 @@
 ####
 app-id: com.blackmagic.ResolveStudio
 runtime: org.freedesktop.Platform
-runtime-version: &runtime-version '24.08'
+runtime-version: &runtime-version '25.08'
 sdk: org.freedesktop.Sdk
 add-extensions:
   com.blackmagic.ResolveStudio.ioplugin:
@@ -51,7 +51,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/besser82/libxcrypt.git
-        tag: v4.4.36
+        tag: v4.4.38
   - name: onetbb
     disabled: true
     buildsystem: cmake-ninja
@@ -61,7 +61,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/oneapi-src/oneTBB
-        tag: v2021.11.0
+        tag: v2022.2.0
   #Build libcxx and ship as a library with Resolve as BM is outdated and segfaults on some setups. Disabled by default.
   # - name: libcxx
   #  disabled: true
