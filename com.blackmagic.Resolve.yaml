@@ -21,6 +21,7 @@ finish-args:
   - --filesystem=xdg-videos
   - --filesystem=/media
   - --filesystem=/run/media
+  - --filesystem=xdg-run/gvfs
   - --filesystem=/mnt
   - --persist=.local/share/DaVinciResolve
   - --persist=Videos/CacheClip
