@@ -1,6 +1,9 @@
 import sys
+import os.path
+import zipfile
 
 from resolve_download import *
+from build_metainfo import *
 
 if __name__ == "__main__":
     is_studio = '--studio' in sys.argv
@@ -15,11 +18,19 @@ if __name__ == "__main__":
         app_tag=app_tag,
         stable=is_beta is False,
     )
-    print(f"Download latest version of Davinchi Resolve{' Studio' if is_studio else ''}...")
-    download_using_id(download_id)
+    if not os.path.isfile("resolve.zip"):
+        print(f"Download latest version of DaVinci Resolve{' Studio' if is_studio else ''}...")
+        download_using_id(download_id)
+    else:
+        print(f"Using user supplied resolve.zip (testing)")
+
+    print("Extracting resolve installation...")
+    with zipfile.ZipFile("./resolve.zip", 'r') as zip_file:
+        zip_file.extractall('.')
+
     print(f"Building meta info...")
-    # build_metainfo(
-    #     app_id='com.blackmagic.ResolveStudio' if is_studio else 'com.blackmagic.Resolve',
-    #     app_description="DaVinci Resolve Studio" if is_studio else 'DaVinchi Resolve',
-    #     app_tag=app_tag,
-    # )
+    build_metainfo(
+        app_id='com.blackmagic.ResolveStudio' if is_studio else 'com.blackmagic.Resolve',
+        app_description="DaVinci Resolve Studio" if is_studio else 'DaVinci Resolve',
+        app_tag=app_tag,
+    )

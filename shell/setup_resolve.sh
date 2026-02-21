@@ -6,7 +6,7 @@
 # https://www.danieltufvesson.com/makeresolvedeb
 ####
 PREFIX='/app'
-STUDIO='false'
+STUDIO=false
 
 usage()
 {
@@ -24,8 +24,8 @@ eval set -- "$PARSED_ARGUMENTS"
 while :
 do
   case "$1" in
-    -s | --studio)  STUDIO='true' ; shift   ;;
-    -p | --prefix)  PREFIX="$2"   ; shift 2 ;;
+    -s | --studio)  STUDIO=true ; shift   ;;
+    -p | --prefix)  PREFIX="$2" ; shift 2 ;;
     --) shift; break ;;
     *) echo "Unexpected option: $1 - this should not happen."
        usage ;;
@@ -34,18 +34,20 @@ done
 
 APP_ID="com.blackmagic.Resolve"
 APP_DESCRIPTION="DaVinci Resolve"
-if ${STUDIO}; then
+if [ "${STUDIO}" = true ] ; then
   APP_ID="com.blackmagic.ResolveStudio"
   APP_DESCRIPTION="DaVinci Resolve Studio"
 fi
+
+echo "Building ${APP_ID}"
 
 ./DaVinci_Resolve_*_Linux.run --appimage-extract 2>&1
 find squashfs-root -type f -exec chmod a+r,u+w {} \;
 find squashfs-root -type d -exec chmod a+rx,u+w {} \;
 
 # Create directories
-mkdir -p ${PREFIX}/easyDCP ${PREFIX}/scripts ${PREFIX}/share ${PREFIX}/Fairlight ${PREFIX}/share/applications ${PREFIX}/share/icons/hicolor/128x128/apps ${PREFIX}/share/icons/hicolor/256x256/apps
-chmod 755 ${PREFIX}/easyDCP ${PREFIX}/scripts ${PREFIX}/share ${PREFIX}/Fairlight ${PREFIX}/share/applications ${PREFIX}/share/icons/hicolor/128x128/apps ${PREFIX}/share/icons/hicolor/256x256/apps
+mkdir -p ${PREFIX}/easyDCP ${PREFIX}/scripts ${PREFIX}/share ${PREFIX}/Fairlight ${PREFIX}/share/applications ${PREFIX}/share/icons/hicolor/128x128/apps ${PREFIX}/share/icons/hicolor/256x256/apps "${PREFIX}/Apple Immersive/Calibration" "${PREFIX}/Extras"
+chmod 755 ${PREFIX}/easyDCP ${PREFIX}/scripts ${PREFIX}/share ${PREFIX}/Fairlight ${PREFIX}/share/applications ${PREFIX}/share/icons/hicolor/128x128/apps ${PREFIX}/share/icons/hicolor/256x256/apps "${PREFIX}/Apple Immersive/Calibration" "${PREFIX}/Extras"
 
 # Copy objects
 cp -rp squashfs-root/bin ${PREFIX}/
@@ -58,9 +60,14 @@ cp -rp squashfs-root/Fairlight\ Studio\ Utility ${PREFIX}/
 cp -rp squashfs-root/Fusion ${PREFIX}/
 cp -rp squashfs-root/graphics ${PREFIX}/
 
-cp -rp squashfs-root/libs ${PREFIX}/
+# https://www.reddit.com/r/Fedora/comments/12z32r1/davinci_resolve_libpango_undefined_symbol_g/
+rm squashfs-root/libs/libglib*
+rm squashfs-root/libs/libgio*
+rm squashfs-root/libs/libgmodule*
+rm squashfs-root/libs/libgobject*
 # Can we use system Qt5? Not yet.
-# rsync -avpr --exclude 'libQt5*' squashfs-root/libs ${PREFIX}/
+# rm squashfs-root/libs/libQt5*
+cp -rp squashfs-root/libs ${PREFIX}/
 
 cp -rp squashfs-root/LUT ${PREFIX}/
 cp -rp squashfs-root/Onboarding ${PREFIX}/
@@ -85,40 +92,40 @@ ln -s ../libs/libBlackmagicRawAPI.so ${PREFIX}/bin/libBlackmagicRawAPI.so
 ln -s ../../libs/libBlackmagicRawAPI.so ${PREFIX}/bin/BlackmagicRawAPI/libBlackmagicRawAPI.so
 
 if [[ -e squashfs-root/BlackmagicRAWPlayer ]]; then
-    echo "Adding BlackmagicRAWPlayer"
+    echo "Adding RAWPlayer"
 
     cp -rp squashfs-root/BlackmagicRAWPlayer ${PREFIX}
-    cat <<'    EOF'| sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RAWPlayer.desktop
-    [Desktop Entry]
-    Version=1.0
-    Encoding=UTF-8
-    Type=Application
-    Name=Blackmagic RAW Player
-    Exec=/app/BlackmagicRAWPlayer/BlackmagicRAWPlayer
-    Icon=${APP_ID}.RAWPlayer
-    Terminal=false
-    MimeType=application/x-braw-clip;application/x-braw-sidecar
-    StartupNotify=true
-    Categories=AudioVideo
-    EOF
+    cat <<EOF > ${PREFIX}/share/applications/${APP_ID}.RAWPlayer.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Blackmagic RAW Player
+Exec=/app/BlackmagicRAWPlayer/BlackmagicRAWPlayer
+Icon=${APP_ID}.RAWPlayer
+Terminal=false
+MimeType=application/x-braw-clip;application/x-braw-sidecar
+StartupNotify=true
+Categories=AudioVideo
+PrefersNonDefaultGPU=true
+EOF
     cp -p squashfs-root/graphics/blackmagicraw-player_256x256_apps.png ${PREFIX}/share/icons/hicolor/256x256/apps/${APP_ID}.RAWPlayer.png
 fi
 if [[ -e squashfs-root/BlackmagicRAWSpeedTest ]]; then
     echo "Adding BlackmagicRAWSpeedTest"
 
     cp -rp squashfs-root/BlackmagicRAWSpeedTest ${PREFIX}
-    cat <<'    EOF'| sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RAWSpeedTest.desktop
-    [Desktop Entry]
-    Version=1.0
-    Encoding=UTF-8
-    Type=Application
-    Name=Blackmagic RAW Speed Test
-    Exec=/app/BlackmagicRAWSpeedTest/BlackmagicRAWSpeedTest
-    Icon=${APP_ID}.RAWSpeedTest
-    Terminal=false
-    StartupNotify=true
-    Categories=AudioVideo
-    EOF
+    cat <<EOF > ${PREFIX}/share/applications/${APP_ID}.RAWSpeedTest.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Blackmagic RAW Speed Test
+Exec=/app/BlackmagicRAWSpeedTest/BlackmagicRAWSpeedTest
+Icon=${APP_ID}.RAWSpeedTest
+Terminal=false
+StartupNotify=true
+Categories=AudioVideo
+PrefersNonDefaultGPU=true
+EOF
     cp -p squashfs-root/graphics/blackmagicraw-speedtest_256x256_apps.png ${PREFIX}/share/icons/hicolor/256x256/apps/${APP_ID}.RAWSpeedTest.png
 fi
 
@@ -159,51 +166,51 @@ Terminal=false
 MimeType=application/x-resolveproj;
 StartupNotify=true
 Categories=AudioVideo
+PrefersNonDefaultGPU=true
 EOF
 cp -rp squashfs-root/graphics/DV_Resolve.png ${PREFIX}/share/icons/hicolor/128x128/apps/${APP_ID}.png
 
 # if [[ -e "${PREFIX}/DaVinci Resolve Panels Setup/DaVinci Resolve Panels Setup" ]]; then
-#     cat | sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.PanelSetup.desktop <<'    EOF'
-#     [Desktop Entry]
-#     Version=1.0
-#     Encoding=UTF-8
-#     Type=Application
-#     Name=DaVinci Resolve Panels Setup
-#     Exec="/app/DaVinci Resolve Panels Setup/DaVinci Resolve Panels Setup"
-#     Icon=${APP_ID}.PanelSetup.png
-#     Terminal=false
-#     StartupNotify=true
-#     Categories=AudioVideo
-#     EOF
+#     cat << EOF > ${PREFIX}/share/applications/${APP_ID}.PanelSetup.desktop
+# [Desktop Entry]
+# Version=1.0
+# Type=Application
+# Name=DaVinci Resolve Panels Setup
+# Exec="/app/DaVinci Resolve Panels Setup/DaVinci Resolve Panels Setup"
+# Icon=${APP_ID}.PanelSetup
+# Terminal=false
+# StartupNotify=true
+# Categories=AudioVideo
+# EOF
 #     cp -rp squashfs-root/graphics/DV_Panels.png ${PREFIX}/share/icons/hicolor/128x128/apps/${APP_ID}.PanelSetup.png
 # fi
 if [[ -e "${PREFIX}/DaVinci Control Panels Setup/DaVinci Control Panels Setup" ]]; then
-    cat <<'    EOF'| sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.PanelSetup.desktop
-    [Desktop Entry]
-    Version=1.0
-    Encoding=UTF-8
-    Type=Application
-    Name=DaVinci Resolve Panels Setup
-    Exec="/app/DaVinci Resolve Panels Setup/DaVinci Resolve Panels Setup"
-    Icon=${APP_ID}.PanelSetup.png
-    Terminal=false
-    StartupNotify=true
-    Categories=AudioVideo
-    EOF
+    cat <<EOF > ${PREFIX}/share/applications/${APP_ID}.PanelSetup.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=DaVinci Resolve Panels Setup
+Exec="/app/DaVinci Resolve Panels Setup/DaVinci Resolve Panels Setup"
+Icon=${APP_ID}.PanelSetup
+Terminal=false
+StartupNotify=true
+Categories=AudioVideo
+PrefersNonDefaultGPU=true
+EOF
     cp -rp squashfs-root/graphics/DV_Panels.png ${PREFIX}/share/icons/hicolor/128x128/apps/${APP_ID}.PanelSetup.png
 fi
 if [[ -e "${PREFIX}/bin/DaVinci Remote Monitoring" ]]; then
-    cat <<'    EOF'| sed -r 's/^\s+//' > ${PREFIX}/share/applications/${APP_ID}.RemoteMonitoring.desktop
-    [Desktop Entry]
-    Version=1.0
-    Encoding=UTF-8
-    Type=Application
-    Name=DaVinci Remote Monitoring
-    Exec="/app/bin/DaVinci Remote Monitoring"
-    Icon=${APP_ID}.RemoteMonitoring
-    Terminal=false
-    StartupNotify=true
-    Categories=AudioVideo
-    EOF
+    cat <<EOF > ${PREFIX}/share/applications/${APP_ID}.RemoteMonitoring.desktop
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=DaVinci Remote Monitoring
+Exec="/app/bin/DaVinci Remote Monitoring"
+Icon=${APP_ID}.RemoteMonitoring
+Terminal=false
+StartupNotify=true
+Categories=AudioVideo
+PrefersNonDefaultGPU=true
+EOF
     cp -rp squashfs-root/graphics/Remote_Monitoring.png ${PREFIX}/share/icons/hicolor/128x128/apps/${APP_ID}.RemoteMonitoring.png
 fi
