@@ -53,6 +53,18 @@ flatpak build-bundle .repo resolve.flatpak com.blackmagic.ResolveStudio --runtim
 
 4. Enjoy.
 
+## udev rules (Resolve Studio)
+On some distros, you may need to add udev rules to enable Resolve Studio to access your USB licence key, otherwise Resolve will segfault at the "Checking Licences..." splash screen. An example udev rule is below:
+
+```
+# Allow Flatpak apps to access USB devices with vendor ID 096e (Feitan Technologies), needed by DaVinci Resolve Studio when using USB licence keys
+# Place this file in /etc/udev/rules.d/
+# Recommended file name: 99-davinci-usb.rules
+
+SUBSYSTEM=="usb", ATTR{idVendor}=="096e", TAG+="uaccess"
+SUBSYSTEM=="usb", ATTR{idVendor}=="096e", MODE="0664", GROUP="plugdev"
+```
+
 ## Finding explicit Download IDs (for download_resolve.sh)
 #### Studio:
 
