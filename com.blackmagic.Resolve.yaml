@@ -4,7 +4,7 @@
 ####
 app-id: com.blackmagic.Resolve
 runtime: org.freedesktop.Platform
-runtime-version: &runtime-version '23.08'
+runtime-version: &runtime-version '24.08'
 sdk: org.freedesktop.Sdk
 finish-args:
   - --share=ipc
@@ -27,6 +27,8 @@ finish-args:
   - --persist=Videos/.gallery
   - --persist=Documents/BlackmagicDesign
   - --env=LD_PRELOAD=/lib/x86_64-linux-gnu/libglib-2.0.so.0 /lib/x86_64-linux-gnu/libgio-2.0.so.0 /lib/x86_64-linux-gnu/libgmodule-2.0.so.0 /lib/x86_64-linux-gnu/libgobject-2.0.so.0
+  - --env=RUSTICL_ENABLE=radeonsi,iris,nouveau
+#  - --env=OCL_ICD_VENDORS=rusticl.icd
 
 command: /app/bin/resolve.sh
 modules:
