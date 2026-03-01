@@ -49,6 +49,10 @@ find squashfs-root -type d -exec chmod a+rx,u+w {} \;
 mkdir -p ${PREFIX}/easyDCP ${PREFIX}/scripts ${PREFIX}/share ${PREFIX}/Fairlight ${PREFIX}/share/applications ${PREFIX}/share/icons/hicolor/128x128/apps ${PREFIX}/share/icons/hicolor/256x256/apps "${PREFIX}/Apple Immersive/Calibration" "${PREFIX}/Extras"
 chmod 755 ${PREFIX}/easyDCP ${PREFIX}/scripts ${PREFIX}/share ${PREFIX}/Fairlight ${PREFIX}/share/applications ${PREFIX}/share/icons/hicolor/128x128/apps ${PREFIX}/share/icons/hicolor/256x256/apps "${PREFIX}/Apple Immersive/Calibration" "${PREFIX}/Extras"
 
+# For extension points
+mkdir -p ${PREFIX}/IOPlugins
+chmod 755 ${PREFIX}/IOPlugins
+
 # Copy objects
 cp -rp squashfs-root/bin ${PREFIX}/
 cp -rp squashfs-root/Control ${PREFIX}/

@@ -6,6 +6,13 @@ app-id: com.blackmagic.ResolveStudio
 runtime: org.freedesktop.Platform
 runtime-version: &runtime-version '24.08'
 sdk: org.freedesktop.Sdk
+add-extensions:
+  com.blackmagic.ResolveStudio.ioplugin:
+    version: '1.0'
+    directory: IOPlugins
+    subdirectories: true
+    no-autodownload: true
+    autodelete: true
 finish-args:
   - --share=ipc
   - --share=network
