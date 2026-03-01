@@ -1,5 +1,6 @@
-build-dir
+.actrc
+.build-dir
 .idea
 venv
-repo
+.repo
 .flatpak-builder
