@@ -65,6 +65,12 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="096e", TAG+="uaccess"
 SUBSYSTEM=="usb", ATTR{idVendor}=="096e", MODE="0664", GROUP="plugdev"
 ```
 
+## Plugins
+Davinci Resolve Flatpak now supports bundling IOPlugins as Flatpak Extensions so they can be trivially installed.
+
+For an example; the publically available ffmpeg IOPlugin is available packaged as a Flatpak extension here:
+https://github.com/pobthebuilder/resolve-ffmpeg-plugin-flatpak
+
 ## Finding explicit Download IDs (for download_resolve.sh)
 #### Studio:
 
@@ -87,12 +93,6 @@ curl -o- https://www.blackmagicdesign.com/api/support/nz/downloads.json |
             | [.urls["Linux"][0].downloadTitle, .urls["Linux"][0].downloadId]
             | @tsv'
 ```
-
-## Plugins
-Davinci Resolve Flatpak now supports bundling IOPlugins as Flatpak Extensions so they can be trivially installed.
-
-For an example; the publically available ffmpeg IOPlugin is available packaged as a Flatpak extension here:
-https://github.com/pobthebuilder/resolve-ffmpeg-plugin-flatpak
 
 ## Licensing
 The icon in logo.png is licensed under the Creative [Commons Attribution-Share Alike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/deed.en) and fetched from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:DaVinci_Resolve_Studio.png). It was only cropped afterwards.
